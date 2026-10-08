@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="tootajaSet" EntityType="Model1.Store.tootajaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ametSet" EntityType="Model1.Store.ametSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ametiTootajaSet" EntityType="Model1.Store.ametiTootajaSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="tootajaametiTootaja" Association="Model1.Store.tootajaametiTootaja">
+      <End Role="tootaja" EntitySet="tootajaSet" />
+      <End Role="ametiTootaja" EntitySet="ametiTootajaSet" />
+    </AssociationSet>
+    <AssociationSet Name="ametametiTootaja" Association="Model1.Store.ametametiTootaja">
+      <End Role="amet" EntitySet="ametSet" />
+      <End Role="ametiTootaja" EntitySet="ametiTootajaSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tootajaSet">
+    <Key>
+      <PropertyRef Name="tootajaID" />
+    </Key>
+    <Property Name="tootajaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nimiPerenimi" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ametSet">
+    <Key>
+      <PropertyRef Name="ametID" />
+    </Key>
+    <Property Name="ametID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ametNimetus" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ametiTootajaSet">
+    <Key>
+      <PropertyRef Name="ametitootajadID" />
+    </Key>
+    <Property Name="ametitootajadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tootaja_tootajaID" Type="int" Nullable="false" />
+    <Property Name="amet_ametID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="tootajaametiTootaja">
+    <End Role="tootaja" Type="Model1.Store.tootajaSet" Multiplicity="1" />
+    <End Role="ametiTootaja" Type="Model1.Store.ametiTootajaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tootaja">
+        <PropertyRef Name="tootajaID" />
+      </Principal>
+      <Dependent Role="ametiTootaja">
+        <PropertyRef Name="tootaja_tootajaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ametametiTootaja">
+    <End Role="amet" Type="Model1.Store.ametSet" Multiplicity="1" />
+    <End Role="ametiTootaja" Type="Model1.Store.ametiTootajaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="amet">
+        <PropertyRef Name="ametID" />
+      </Principal>
+      <Dependent Role="ametiTootaja">
+        <PropertyRef Name="amet_ametID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tootajaSet" EntityType="Model1.tootaja" />
+          <EntitySet Name="ametSet" EntityType="Model1.amet" />
+          <EntitySet Name="ametiTootajaSet" EntityType="Model1.ametiTootaja" />
+          <AssociationSet Name="tootajaametiTootaja" Association="Model1.tootajaametiTootaja">
+            <End Role="tootaja" EntitySet="tootajaSet" />
+            <End Role="ametiTootaja" EntitySet="ametiTootajaSet" />
+          </AssociationSet>
+          <AssociationSet Name="ametametiTootaja" Association="Model1.ametametiTootaja">
+            <End Role="amet" EntitySet="ametSet" />
+            <End Role="ametiTootaja" EntitySet="ametiTootajaSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tootaja">
+          <Key>
+            <PropertyRef Name="tootajaID" />
+          </Key>
+          <Property Name="tootajaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nimiPerenimi" Type="String" Nullable="false" />
+          <NavigationProperty Name="ametiTootaja" Relationship="Model1.tootajaametiTootaja" FromRole="tootaja" ToRole="ametiTootaja" />
+        </EntityType>
+        <EntityType Name="amet">
+          <Key>
+            <PropertyRef Name="ametID" />
+          </Key>
+          <Property Name="ametID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ametNimetus" Type="String" Nullable="false" />
+          <NavigationProperty Name="ametiTootaja" Relationship="Model1.ametametiTootaja" FromRole="amet" ToRole="ametiTootaja" />
+        </EntityType>
+        <EntityType Name="ametiTootaja">
+          <Key>
+            <PropertyRef Name="ametitootajadID" />
+          </Key>
+          <Property Name="ametitootajadID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="tootaja" Relationship="Model1.tootajaametiTootaja" FromRole="ametiTootaja" ToRole="tootaja" />
+          <NavigationProperty Name="amet" Relationship="Model1.ametametiTootaja" FromRole="ametiTootaja" ToRole="amet" />
+        </EntityType>
+        <Association Name="tootajaametiTootaja">
+          <End Type="Model1.tootaja" Role="tootaja" Multiplicity="1" />
+          <End Type="Model1.ametiTootaja" Role="ametiTootaja" Multiplicity="*" />
+        </Association>
+        <Association Name="ametametiTootaja">
+          <End Type="Model1.amet" Role="amet" Multiplicity="1" />
+          <End Type="Model1.ametiTootaja" Role="ametiTootaja" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="tootajaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.tootaja)">
+        <MappingFragment StoreEntitySet="tootajaSet">
+          <ScalarProperty Name="tootajaID" ColumnName="tootajaID" />
+          <ScalarProperty Name="nimiPerenimi" ColumnName="nimiPerenimi" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ametSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.amet)">
+        <MappingFragment StoreEntitySet="ametSet">
+          <ScalarProperty Name="ametID" ColumnName="ametID" />
+          <ScalarProperty Name="ametNimetus" ColumnName="ametNimetus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ametiTootajaSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.ametiTootaja)">
+        <MappingFragment StoreEntitySet="ametiTootajaSet">
+          <ScalarProperty Name="ametitootajadID" ColumnName="ametitootajadID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="tootajaametiTootaja" TypeName="Model1.tootajaametiTootaja" StoreEntitySet="ametiTootajaSet">
+      <EndProperty Name="tootaja">
+        <ScalarProperty Name="tootajaID" ColumnName="tootaja_tootajaID" />
+      </EndProperty>
+      <EndProperty Name="ametiTootaja">
+        <ScalarProperty Name="ametitootajadID" ColumnName="ametitootajadID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ametametiTootaja" TypeName="Model1.ametametiTootaja" StoreEntitySet="ametiTootajaSet">
+      <EndProperty Name="amet">
+        <ScalarProperty Name="ametID" ColumnName="amet_ametID" />
+      </EndProperty>
+      <EndProperty Name="ametiTootaja">
+        <ScalarProperty Name="ametitootajadID" ColumnName="ametitootajadID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
